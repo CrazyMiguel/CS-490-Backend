@@ -36,6 +36,4 @@ else
 	echo "FALSE";
 }
 
-//The middle end now needs to checks the front ends entry of username against my database if the name does exist
-//must dehash my hashed password and then compare my password against the front ends entered password.
 ?>
