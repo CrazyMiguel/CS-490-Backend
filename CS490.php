@@ -29,11 +29,13 @@ while($row = mysqli_fetch_array($result))
 
 if($enteredpass_hashed==$actual_pass)
 {
-	echo "TRUE";
+	$response = ['response' => 'TRUE'];
+	echo json_encode($response);
 }
 else
 {
-	echo "FALSE";
+	$response = ['response' => 'FALSE'];
+	echo json_encode($response);
 }
 
 ?>
