@@ -10,7 +10,7 @@ if ($cnx->connect_error)
 	die('Connection failed: ' . $cnx->connect_error);
 
 //QuestionBank
-if(isset($_POST['Question'], $_POST['Topic'], $_POST['Difficulty'], $_POST['Case1in'], $_POST['Case2in'], $_POST['Case1out'], $_POST['Case2out']))
+if(isset($_POST['Question']))
 {
 	//Display the Question_Bank
 	$query2 = "Select Question from Question_Bank";
@@ -20,21 +20,32 @@ if(isset($_POST['Question'], $_POST['Topic'], $_POST['Difficulty'], $_POST['Case
 		$Question_inputted=['Question' => $row['Question']];
 		echo json_encode($Question_inputted); //must change to json format
 	}
+	//Decoding the JSON file sent via POS
+	$Question_JSON=$_POST['Question'];
+	$Question_PHP=json_decode($Question_JSON, TRUE);
+	$Question=$Question_PHP["question"];
+	$Topic= $Question_PHP["topic"];
+	$Difficulty=$Question_PHP['difficulty'];
+	$case1in=$Question_PHP['testcases'][0]['in']
+	$case1out=$Question_PHP['testcases'][0]['out']
+	$case2in=$Question_PHP['testcases'][1]['in'];
+	$case2out=$Question_PHP['testcases'][1]['out'];
+
 	//Inserting Question into Question Bank
-	$Question=$_POST['Question'];
-	$Topic=$_POST['Topic'];
-	$Difficulty=$_POST['Difficulty'];
-	$case1in=$_POST['Case1in'];
-	$case2in=$_POST['Case2in'];
-	$case1out=$_POST['Case1out'];
-	$case2out=$_POST['Case2out'];
 	$query3 = "INSERT INTO Question_Bank (Question, Topic, Difficulty) VALUES ('$Question', '$Topic', '$Difficulty')";
 	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERY\n");
-	$query4 = "INSERT INTO test_cases (Question, testNo, input, output) VALUES ('$Question', '1', '$case1in', '$case1out')";
+	$query4 = "INSERT INTO test_cases (in1, out1, in2, out2) VALUES ('$Question', '$case1in', '$case1out', '$case2in', '$case2out')";
 	$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYs\n");	
-	$query5 = "INSERT INTO test_cases (Question, testNo, input, output) VALUES ('$Question', '2', '$case2in', '$case2out')";
-	$result5 = mysqli_query($cnx, $query5) or die("BAD QUERYm\n");	
 }
 
 //Exam
- 
+	//Display Question Bank
+	//$query6 = "Select Question from Question_Bank";
+	//$result6 = mysqli_query($cnx, $query6) or die("BAD QUERY\n");
+	//while($row = mysqli_fetch_array($result6)) 
+	//{
+	//	$Question_inputted=['Question' => $row['Question']];
+	//	echo json_encode($Question_inputted); //must change to json format
+	//}	
+mysqli_close($cnx);
+?>
