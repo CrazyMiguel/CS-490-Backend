@@ -23,6 +23,26 @@ function GetAllQuestions()
 
 GetALLQuestions();
 
+function InsertExamID($EID)
+{
+	$query5 = "INSERT INTO Exams (ExamID) VALUES ('$EID')";
+	$result5 = mysqli_query($cnx, $query5) or die("BAD QUERY\n");
+}
+
+function InsertQforExam($QID,$EID,$P)
+{
+	$query6 = "INSERT INTO Creates_with (QuestionID, ExamID, Points) VALUES ('$QID', '$EID', '$P')";
+	$result6 = mysqli_query($cnx, $query6) or die("BAD QUERY\n");
+}
+
 //Exam Creation
+if(isset($_POST['Exam']))
+{
+	//Decoding the JSON file sent via POST
+	$Exam_JSON=$_POST['Question'];
+	$Exam_PHP=json_decode($Question_JSON, TRUE);
+	//$ExamID I need an exam id
+	//
+
 mysqli_close($cnx);
 ?>
