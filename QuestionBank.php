@@ -32,7 +32,7 @@ if(isset($_POST['Question']))
 	$case2out=$Question_PHP['testcases'][1]['out'];
 
 	//Inserting Question into Question Bank
-	InsertStuff($Question,$Topic,$Difficulty,$case1in,$case1out,$case2in,$case2out)
+	InsertStuff($Question,$Topic,$Difficulty,$case1in,$case1out,$case2in,$case2out);
 }
 
 //get the entire question bank 
