@@ -26,16 +26,8 @@ while($row = mysqli_fetch_array($result))
 
 if($enteredpass_hashed==$actual_pass) //comparing entered password to the password in db
 {
-	if($db_role=="professor")
-	{
-		$response = ['response' => 'professor'];
-		echo json_encode($response);	//delivering it in json format {"response":"professor"}
-	}
-	else
-	{
-		$response = ['response' => 'student'];
-		echo json_encode($response);	//delivering it in json format {"response":"student"}
-	}
+	$response = ['response' => $db_role];
+	echo json_encode($response);
 }
 else
 {
