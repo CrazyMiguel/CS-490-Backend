@@ -43,6 +43,7 @@ if(isset($_POST['Exam']))
 	$Exam_PHP=json_decode($Question_JSON, TRUE);
 	//$ExamID I need an exam id
 	//
+	//
 
 mysqli_close($cnx);
 ?>
