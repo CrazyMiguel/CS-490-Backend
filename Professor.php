@@ -12,7 +12,7 @@ if ($cnx->connect_error)
 //QuestionBank
 if(isset($_POST['Question']))
 {
-	//Decoding the JSON file sent via POS
+	//Decoding the JSON file sent via POST
 	$Question_JSON=$_POST['Question'];
 	$Question_PHP=json_decode($Question_JSON, TRUE);
 	$Question=$Question_PHP["question"];
@@ -30,9 +30,9 @@ if(isset($_POST['Question']))
 	$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYs\n");	
 }
 
-function getallquestions()
+function GetAllQuestions()
 {
-	$query1 = "Select Question from Question_Bank";
+	$query1 = "Select * from Question_Bank";
 	$result1 = mysqli_query($cnx, $query1) or die("BAD QUERY\n");
 	while($row = mysqli_fetch_array($result1)) 
 	{
@@ -40,6 +40,8 @@ function getallquestions()
 		echo json_encode($Question_inputted); //must change to json format
 	}
 }
+
+GetALLQuestions();
 
 //Send 	
 mysqli_close($cnx);
