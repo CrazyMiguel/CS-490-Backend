@@ -26,18 +26,17 @@ function InsertTests($QID,$in,$out)
 	$Question=$Question_PHP["question"];
 	$Topic= $Question_PHP["topic"];
 	$Difficulty=$Question_PHP['difficulty'];
-	$functionname=$Question_PHP['functionname']
-	$testcases=$Question_PHP['testcases']
+	$functionname=$Question_PHP['functionname'];
+	$testcases=$Question_PHP['testcases'];
 	
 	//Inserting Question into Question Bank
-	InsertStuff($Question,$Topic,$Difficulty)
-
+	InsertStuff($Question,$Topic,$Difficulty);
 
 	for($i=0;$i<=count($testcases);$i++)
 	{
-		$casein=$Question_PHP['testcases'][$i]['in']
-		$caseout=$Question_PHP['testcases'][$i]['out']
-		InsertTests($QID,$casein,$caseout)
+		$casein=$Question_PHP['testcases'][$i]['in'];
+		$caseout=$Question_PHP['testcases'][$i]['out'];
+		InsertTests($QID,$casein,$caseout);
 	}
 
 //get the entire question bank 
@@ -57,3 +56,4 @@ GetALLQuestions();
 //Exam Creation
  	
 mysqli_close($cnx);
+?>
