@@ -9,23 +9,9 @@ $cnx = new mysqli($host, $user, $password, $db);
 if ($cnx->connect_error)
 	die('Connection failed: ' . $cnx->connect_error);
 
-//get the entire question bank 
-function GetAllQuestions()
+function InsertExamtype()
 {
-	$query1 = "Select * from Question_Bank";
-	$result1 = mysqli_query($cnx, $query1) or die("BAD QUERY\n");
-	while($row = mysqli_fetch_array($result1)) 
-	{
-		$Question_inputted=['Question' => $row['Question']];
-		echo json_encode($Question_inputted); //must change to json format
-	}
-}
-
-GetALLQuestions();
-
-function InsertExamID($EID)
-{
-	$query5 = "INSERT INTO Exams (ExamID) VALUES ('$EID')";
+	$query5 = "INSERT INTO Exams (Testname) VALUES ('python')";
 	$result5 = mysqli_query($cnx, $query5) or die("BAD QUERY\n");
 }
 
@@ -36,14 +22,19 @@ function InsertQforExam($QID,$EID,$P)
 }
 
 //Exam Creation
-if(isset($_POST['Exam']))
-{
 	//Decoding the JSON file sent via POST
-	$Exam_JSON=$_POST['Question'];
-	$Exam_PHP=json_decode($Question_JSON, TRUE);
-	//$ExamID I need an exam id
-	//
-	//
+	$Exam_PHP= json_decode(file_get_contents('php://input'), true)
+	$numquestions=$Exam_PHP["questions"]
+	InsertExamtype();
+	$query7= "SELECT ExamID FROM Exams ORDER BY ExamID DESC LIMIT 1"
+	$ExamID = mysqli_query($cnx, $query7) or die("BAD Query\n");
 
+	for($i=0;$i<=count($numquestions);$i++)
+	{
+		$QuestionID=["questionid"];
+		$Points=["points"];
+		InsertQforExam($QuestionID,$ExamID,$Points);
+	}
+}
 mysqli_close($cnx);
 ?>
