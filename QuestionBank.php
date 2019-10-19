@@ -21,14 +21,12 @@ function InsertTests($QID,$in,$out)
 }	
 
 //QuestionBank
-if(isset($_POST['Question']))
-{
 	//Decoding the JSON file sent via POST
-	$Question_JSON=$_POST['Question'];
-	$Question_PHP=json_decode($Question_JSON, TRUE);
+	$Question_JSON= json_decode(file_get_contents('php://input'), true)
 	$Question=$Question_PHP["question"];
 	$Topic= $Question_PHP["topic"];
 	$Difficulty=$Question_PHP['difficulty'];
+	$functionname=$Question_PHP['functionname']
 	$testcases=$Question_PHP['testcases']
 	
 	//Inserting Question into Question Bank
@@ -41,7 +39,6 @@ if(isset($_POST['Question']))
 		$caseout=$Question_PHP['testcases'][$i]['out']
 		InsertTests($QID,$casein,$caseout)
 	}
-}
 
 //get the entire question bank 
 function GetAllQuestions()
@@ -60,4 +57,3 @@ GetALLQuestions();
 //Exam Creation
  	
 mysqli_close($cnx);
-?>
