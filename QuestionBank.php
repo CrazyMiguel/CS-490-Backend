@@ -13,9 +13,12 @@ function InsertStuff($Q,$T,$D,$Cin,$Cout,$Cin2,$Cout2)
 {
 	$query3 = "INSERT INTO Question_Bank (Question, Topic, Difficulty) VALUES ('$Q', '$T', '$D')";
 	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERY\n");
-	$query4 = "INSERT INTO test_cases (in1, out1, in2, out2) VALUES ('$Q', '$Cin', '$Cout', '$Cin2', '$Cout2')";
-	$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYs\n");	
 }
+function InsertTests($QID,$in,$out)
+{
+	$query4 = "INSERT INTO test_cases (QuestionID, in1, out1) VALUES ('$QID', '$in', '$out')";
+	$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYs\n");
+}	
 
 //QuestionBank
 if(isset($_POST['Question']))
@@ -26,13 +29,18 @@ if(isset($_POST['Question']))
 	$Question=$Question_PHP["question"];
 	$Topic= $Question_PHP["topic"];
 	$Difficulty=$Question_PHP['difficulty'];
-	$case1in=$Question_PHP['testcases'][0]['in']
-	$case1out=$Question_PHP['testcases'][0]['out']
-	$case2in=$Question_PHP['testcases'][1]['in'];
-	$case2out=$Question_PHP['testcases'][1]['out'];
-
+	$testcases=$Question_PHP['testcases']
+	
 	//Inserting Question into Question Bank
-	InsertStuff($Question,$Topic,$Difficulty,$case1in,$case1out,$case2in,$case2out);
+	InsertStuff($Question,$Topic,$Difficulty)
+
+
+	for($i=0;$i<=count($testcases);$i++)
+	{
+		$casein=$Question_PHP['testcases'][$i]['in']
+		$caseout=$Question_PHP['testcases'][$i]['out']
+		InsertTests($QID,$casein,$caseout)
+	}
 }
 
 //get the entire question bank 
