@@ -9,51 +9,42 @@ $cnx = new mysqli($host, $user, $password, $db);
 if ($cnx->connect_error)
 	die('Connection failed: ' . $cnx->connect_error);
 
-function InsertStuff($Q,$T,$D,$Cin,$Cout,$Cin2,$Cout2)
+function InsertStuff($Q,$T,$D,$F)
 {
-	$query3 = "INSERT INTO Question_Bank (Question, Topic, Difficulty) VALUES ('$Q', '$T', '$D')";
-	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERY\n");
+	global $cnx;
+	$query3 = "INSERT INTO Question_Bank (question, topic, difficulty, functionname) VALUES ('$Q', '$T', '$D', '$F')";
+	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERYf\n");
 }
+
 function InsertTests($QID,$in,$out)
 {
+	global $cnx;
 	$query4 = "INSERT INTO test_cases (QuestionID, in1, out1) VALUES ('$QID', '$in', '$out')";
 	$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYs\n");
 }	
 
 //QuestionBank
 	//Decoding the JSON file sent via POST
-	$Question_JSON= json_decode(file_get_contents('php://input'), true)
-	$Question=$Question_PHP["question"];
-	$Topic= $Question_PHP["topic"];
-	$Difficulty=$Question_PHP['difficulty'];
-	$functionname=$Question_PHP['functionname'];
-	$testcases=$Question_PHP['testcases'];
-	
+	$Question_JSON= json_decode(file_get_contents('php://input'), true);
+	$question=$Question_JSON["question"];
+	$topic= $Question_JSON["topic"];
+	$difficulty=$Question_JSON['difficulty'];
+	$functionname=$Question_JSON['functionname'];
+	$testcases=$Question_JSON['testcases'];
+	echo $testcases;
 	//Inserting Question into Question Bank
-	InsertStuff($Question,$Topic,$Difficulty);
-
-	for($i=0;$i<=count($testcases);$i++)
+	InsertStuff($question,$topic,$difficulty,$functionname);
+	echo $question;
+	$query7= "SELECT QuestionID FROM Question_Bank Where question='$question'";
+	$QID = mysqli_query($cnx, $query7) or die("BAD Querym\n");
+	echo $QID;
+	echo $question;
+	for($i=0;$i<count($testcases);$i++)
 	{
 		$casein=$Question_PHP['testcases'][$i]['in'];
 		$caseout=$Question_PHP['testcases'][$i]['out'];
 		InsertTests($QID,$casein,$caseout);
 	}
-
-//get the entire question bank 
-function GetAllQuestions()
-{
-	$query1 = "Select * from Question_Bank";
-	$result1 = mysqli_query($cnx, $query1) or die("BAD QUERY\n");
-	while($row = mysqli_fetch_array($result1)) 
-	{
-		$Question_inputted=['Question' => $row['Question']];
-		echo json_encode($Question_inputted); //must change to json format
-	}
-}
-
-GetALLQuestions();
-
-//Exam Creation
  	
 mysqli_close($cnx);
 ?>
