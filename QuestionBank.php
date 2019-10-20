@@ -21,28 +21,32 @@ function InsertTests($QID,$in,$out)
 	global $cnx;
 	$query4 = "INSERT INTO test_cases (QuestionID, in1, out1) VALUES ('$QID', '$in', '$out')";
 	$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYs\n");
-}	
-
+}
+//function GetQuestionID($Q)
+//{	
+//	global $cnx;
+//	$query7= "SELECT QuestionID FROM Question_Bank Where question = '$Q'";
+//	$QID = mysqli_query($cnx, $query7) or die("BAD Querym\n");
+//	return $QID;
+//}
 //QuestionBank
 	//Decoding the JSON file sent via POST
 	$Question_JSON= json_decode(file_get_contents('php://input'), true);
+	$Question_NO= file_get_contents('php://input');
 	$question=$Question_JSON["question"];
 	$topic= $Question_JSON["topic"];
 	$difficulty=$Question_JSON['difficulty'];
 	$functionname=$Question_JSON['functionname'];
 	$testcases=$Question_JSON['testcases'];
-	echo $testcases;
+	
 	//Inserting Question into Question Bank
 	InsertStuff($question,$topic,$difficulty,$functionname);
-	echo $question;
-	$query7= "SELECT QuestionID FROM Question_Bank Where question='$question'";
-	$QID = mysqli_query($cnx, $query7) or die("BAD Querym\n");
-	echo $QID;
-	echo $question;
+	//GetQuestionID($question);
+	$QID= intval(mysqli_insert_id($cnx));
 	for($i=0;$i<count($testcases);$i++)
 	{
-		$casein=$Question_PHP['testcases'][$i]['in'];
-		$caseout=$Question_PHP['testcases'][$i]['out'];
+		$casein=$testcases[$i]['in'];
+		$caseout=$testcases[$i]['out'];
 		InsertTests($QID,$casein,$caseout);
 	}
  	
