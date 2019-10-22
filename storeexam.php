@@ -12,13 +12,14 @@ if ($cnx->connect_error)
 function InsertTakenExam($EID,$UCID,$QID,$R,$C,$Sub)
 {
 	global $cnx;
-	$query6 = "Select * from Stored_Exams where ExamID= '$EID' and UCID= '$UCID' and QuestionID= '$QID";
+	$query6 = "Select * from Stored_Exams where ExamID= '$EID' and UCID= '$UCID' and QuestionID= '$QID'";
 	$result6 = mysqli_query($cnx, $query6) or die("BAD QUERYs\n");
 
 	if(mysqli_num_rows($result6) == 0)
 	{
 	$query3 = "INSERT INTO Stored_Exams (ExamID, UCID, QuestionID, Results, Comments, Submission) VALUES ('$EID', '$UCID', '$QID', '$R', '$C','$Sub')";
 	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERY\n");
+	}
 }
 function InsertReview($EID,$UCID)
 {
