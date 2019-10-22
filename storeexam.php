@@ -12,13 +12,13 @@ if ($cnx->connect_error)
 function InsertTakenExam($EID,$UCID,$QID,$R,$C,$Sub)
 {
 	global $cnx;
-	$query3 = "INSERT INTO Stored_Exams (ExamID, UCID, QuestionID, Results, Comments, Submission) VALUES ('$EID', '$UCID', '$QID', '$R', '$C','$Sub'))";
+	$query3 = "INSERT INTO Stored_Exams (ExamID, UCID, QuestionID, Results, Comments, Submission) VALUES ('$EID', '$UCID', '$QID', '$R', '$C','$Sub')";
 	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERYf\n");
 }
 function InsertTakenExam($EID,$UCID)
 {
 	global $cnx;
-	$query4 = "INSERT INTO Stored_Exams (ExamID, UCID) VALUES ('$EID', '$UCID'))";
+	$query4 = "INSERT INTO Stored_Exams (ExamID, UCID) VALUES ('$EID', '$UCID')";
 	$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYf\n");
 }
 //StoreTakenExam
