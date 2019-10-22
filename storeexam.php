@@ -12,14 +12,25 @@ if ($cnx->connect_error)
 function InsertTakenExam($EID,$UCID,$QID,$R,$C,$Sub)
 {
 	global $cnx;
+	$query6 = "Select * from Stored_Exams where ExamID= '$EID' and UCID= '$UCID' and QuestionID= '$QID";
+	$result6 = mysqli_query($cnx, $query6) or die("BAD QUERYs\n");
+
+	if(mysqli_num_rows($result6) == 0)
+	{
 	$query3 = "INSERT INTO Stored_Exams (ExamID, UCID, QuestionID, Results, Comments, Submission) VALUES ('$EID', '$UCID', '$QID', '$R', '$C','$Sub')";
-	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERYf\n");
+	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERY\n");
 }
-function InsertTakenExam($EID,$UCID)
+function InsertReview($EID,$UCID)
 {
 	global $cnx;
-	$query4 = "INSERT INTO Stored_Exams (ExamID, UCID) VALUES ('$EID', '$UCID')";
-	$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYf\n");
+	$query5 = "Select * from Review where ExamID= '$EID' and UCID= '$UCID'";
+	$result5 = mysqli_query($cnx, $query5) or die("BAD QUERYs\n");
+
+	if(mysqli_num_rows($result5) == 0)
+	{
+		$query4 = "INSERT INTO Review (ExamID, UCID) VALUES ('$EID', '$UCID')";
+		$result4 = mysqli_query($cnx, $query4) or die("BAD QUERYf\n");
+	}
 }
 //StoreTakenExam
 	//Decoding the JSON file sent via POST
