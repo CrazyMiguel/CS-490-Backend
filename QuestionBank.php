@@ -9,10 +9,10 @@ $cnx = new mysqli($host, $user, $password, $db);
 if ($cnx->connect_error)
 	die('Connection failed: ' . $cnx->connect_error);
 
-function InsertStuff($Q,$T,$D,$C,$F)
+function InsertStuff($Q,$T,$D,$R,$F)
 {
 	global $cnx;
-	$query3 = "INSERT INTO Question_Bank (question, topic, difficulty, constraint, functionname) VALUES ('$Q', '$T', '$D', '$C', '$F')";
+	$query3 = "INSERT INTO Question_Bank (question, topic, difficulty, required, functionname) VALUES ('$Q', '$T', '$D', '$R', '$F')";
 	$result3 = mysqli_query($cnx, $query3) or die("BAD QUERYf\n");
 }
 
@@ -28,12 +28,12 @@ function InsertTests($QID,$in,$out)
 	$question=$Question_JSON["question"];
 	$topic= $Question_JSON["topic"];
 	$difficulty=$Question_JSON['difficulty'];
-	$constraint=$Question_JSON['constraint'];
+	$required=$Question_JSON['required'];
 	$functionname=$Question_JSON['functionname'];
 	$testcases=$Question_JSON['testcases'];
 	
 	//Inserting Question into Question Bank
-	InsertStuff($question,$topic,$difficulty,$constraint,$functionname);
+	InsertStuff($question,$topic,$difficulty,$required,$functionname);
 	//GetQuestionID($question);
 	$QID= intval(mysqli_insert_id($cnx));
 	for($i=0;$i<count($testcases);$i++)
