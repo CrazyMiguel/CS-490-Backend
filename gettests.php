@@ -13,13 +13,13 @@ if(isset($_POST['questionid']))
 {
 	$QID=$_POST['questionid'];
 	
-	$query1 = "Select functionname,constraint from Question_Bank where QuestionID='$QID'";
+	$query1 = "Select functionname,required from Question_Bank where QuestionID='$QID'";
 	$Functionname = mysqli_query($cnx, $query1) or die("BAD QUERY\n");
 	
 	while($row = mysqli_fetch_array($Functionname)) 
 	{
     		$function=$row['functionname'];
-		$constraint=$row['constraint'];
+		$required=$row['required'];
 	}	
 
 	$query1 = "Select in1, out1 from test_cases where QuestionID='$QID'";
@@ -34,7 +34,8 @@ if(isset($_POST['questionid']))
 		array_push($test_arr, $newdata);
 	}
 	
-	$response = ["functionname" => $function, "constraint" => $constraint, "testcases" => $test_arr];
+	$response = ["functionname" => $function, "required" => $required, "testcases" => $test_arr];
 	echo json_encode($response);
 	
 }
+?>
